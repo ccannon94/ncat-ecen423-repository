@@ -12,11 +12,110 @@ entity ten_count is
 end entity ten_count;
 
 entity fsm_control is
-    port(clk, reset : in std_logic;
-    five_reset, ten_reset : out std_logic;
+    port(clk, reset, sensor_ew : in std_logic;
+    five_reset, ten_reset, five_enable, ten_enable : out std_logic;
     north_south, east_west : std_logic_vector(2 downto 0));
 end entity fsm_control;
 
+architecture fsm_arch of fsm_control is
+    signal current_state : std_logic_vector(2 downto 0) := "000";
+    signal next_state : std_logic_vector(2 downto 0) := "000";
+
+    begin  
+        process(clk, reset)
+        begin
+            if(reset = '1') then next_state <= "000";
+            elsif(clk'event and clk = '1') then
+                case current_state is
+                    when "000" =>
+                        if(ten_done = '1' and sensor_ew = '1') then
+                            next_state <= "001";
+                        else next_state <= "000";
+                        end if;
+                    when "001" =>
+                        next_state <= "010";
+                    when "010" =>
+                        next_state <= "011";
+                    when "011" =>
+                        next_state <= "100";
+                    when "100" =>
+                        if(five_done = '1' or sensor_ew = '0') then
+                            next_state <= "101";
+                        else next_state <= "100";
+                        end if;
+                    when "101" =>
+                        next_state <= "110";
+                    when "110" =>
+                        next_state <= "111";
+                    when "111" =>
+                        next_state <= "000";
+                end case;
+            end if;
+        end process;
+        process(current_state)
+        begin
+            case current_state is
+                when "000" =>
+                    north_south <= "001";
+                    east_west <= "100";
+                    five_reset <= '0';
+                    five_enable <= '0';
+                    ten_reset <= '0';
+                    ten_enable <= '1';
+                when "001" =>
+                    north_south <= "010";
+                    east_west <= "100";
+                    five_reset <= '0';
+                    five_enable <= '0';
+                    ten_reset <= '0';
+                    ten_enable <= '0';
+                when "010" =>
+                    north_south <= "100";
+                    east_west <= "100";
+                    five_reset <= '0';
+                    five_enable <= '0';
+                    ten_reset <= '0';
+                    ten_enable <= '0';
+                when "011" =>
+                    north_south <= "100";
+                    east_west <= "001";
+                    five_reset <= '1';
+                    five_enable <= '1';
+                    ten_reset <= '0';
+                    ten_enable <= '0';
+                when "100" =>
+                    north_south <= "100";
+                    east_west <= "001";
+                    five_reset <= '0';
+                    five_enable <= '1';
+                    ten_reset <= '0';
+                    ten_enable <= '0';
+                when "101" =>
+                    north_south <= "100";
+                    east_west <= "010";
+                    five_reset <= '0';
+                    five_enable <= '0';
+                    ten_reset <= '0';
+                    ten_enable <= '0';
+                when "110" =>
+                    north_south <= "100";
+                    east_west <= "100";
+                    five_reset <= '0';
+                    five_enable <= '0';
+                    ten_reset <= '0';
+                    ten_enable <= '0';
+                when "111" =>
+                    north_south <= "001";
+                    east_west <= "100";
+                    five_reset <= '0'
+                    five_enable <= '0';
+                    ten_reset <= '1';
+                    ten_enable <= '1';
+            end case;
+        end process;
+    current_state <= next_state;
+end architecture fsm_arch;
+
 entity traffic_controller is
-    port();
+    port(clk : in std_logic);
 end entity traffic_controller;
