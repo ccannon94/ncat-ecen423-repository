@@ -1,4 +1,4 @@
-library iee;
+library ieee;
 use ieee.std_logic_1164.all;
 
 entity five_count is
@@ -6,10 +6,16 @@ entity five_count is
     five_done : out std_logic);
 end entity five_count;
 
+library iee;
+use ieee.std_logic_1164.all;
+
 entity ten_count is
     port(clk, reset, enable : in std_logic;
     ten_done : out std_logic);
 end entity ten_count;
+
+library iee;
+use ieee.std_logic_1164.all;
 
 entity fsm_control is
     port(clk, reset, sensor_ew : in std_logic;
@@ -21,7 +27,7 @@ architecture fsm_arch of fsm_control is
     signal current_state : std_logic_vector(2 downto 0) := "000";
     signal next_state : std_logic_vector(2 downto 0) := "000";
 
-    begin  
+    begin 
         process(clk, reset)
         begin
             if(reset = '1') then next_state <= "000";
@@ -116,6 +122,36 @@ architecture fsm_arch of fsm_control is
     current_state <= next_state;
 end architecture fsm_arch;
 
+library iee;
+use ieee.std_logic_1164.all;
+
 entity traffic_controller is
-    port(clk : in std_logic);
+    port(clk, reset, sensor_ew: in std_logic;
+    north_south, east_west : std_logic_vector(2 downto 0));
 end entity traffic_controller;
+
+architecture traffic_control_arch of traffic_controller is
+    signal five_reset, five_enable, five_done, ten_reset, ten_enable, ten_done : std_logic;
+
+    component five_count is
+        port(clk, reset, enable : in std_logic;
+        five_done : out std_logic);
+    end component five_count;
+
+    component ten_count is
+        port(clk, reset, enable : in std_logic;
+        ten_done : out std_logic);
+    end component ten_count;
+
+    component fsm_control is
+        port(clk, reset, sensor_ew : in std_logic;
+        five_reset, ten_reset, five_enable, ten_enable : out std_logic;
+        north_south, east_west : std_logic_vector(2 downto 0));
+    end component fsm_control;
+
+    begin
+        fc : five_count port map(clk, five_reset, five_enable, five_done);
+        tc : ten_count port map(clk, ten_reset, ten_enable, ten_done);
+        fsm : fsm_control port map(clk, reset, sensor_ew, five_reset, ten_reset, 
+            five_enable, ten_enable, north_south, east_west);
+end architecture traffic_control_arch;
