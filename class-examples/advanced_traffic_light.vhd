@@ -6,7 +6,7 @@ entity five_count is
     five_done : out std_logic);
 end entity five_count;
 
-library iee;
+library ieee;
 use ieee.std_logic_1164.all;
 
 entity ten_count is
@@ -14,7 +14,7 @@ entity ten_count is
     ten_done : out std_logic);
 end entity ten_count;
 
-library iee;
+library ieee;
 use ieee.std_logic_1164.all;
 
 entity fsm_control is
@@ -122,7 +122,7 @@ architecture fsm_arch of fsm_control is
     current_state <= next_state;
 end architecture fsm_arch;
 
-library iee;
+library ieee;
 use ieee.std_logic_1164.all;
 
 entity traffic_controller is
