@@ -6,6 +6,26 @@ entity five_count is
     five_done : out std_logic);
 end entity five_count;
 
+architecture five_arch of five_count is
+    signal count : std_logic_vector(2 downto 0) := "000";
+
+    begin
+        process(clk, reset)
+        begin
+            if(reset = '1') then
+                count <= "000";
+            elsif(clk'event and clk = '1' and enable = '1') then
+                count <= count + "001";
+            end if;
+        end process;
+        process(count)
+        begin
+            if(count >= "101") then five_done <= '1';
+            else five_done <= '0';
+            end if;
+        end process;
+end architecture five_arch;
+
 library ieee;
 use ieee.std_logic_1164.all;
 
@@ -13,6 +33,26 @@ entity ten_count is
     port(clk, reset, enable : in std_logic;
     ten_done : out std_logic);
 end entity ten_count;
+
+architecture ten_arch of ten_count is 
+    signal count : std_logic_vector(3 downto 0) := "0000";
+
+    begin
+        process(clk, reset)
+        begin
+            if(reset = '1') then
+                count <= "0000";
+            elsif(clk'event and clk = '1' and enable = '1') then
+                count <= count + "0001";
+            end if;
+        end process;
+        process(count)
+        begin
+            if(count >= "1010") then ten_done <= '1';
+            else ten_done <= '0';
+            end if;
+        end process;
+end architecture ten_arch;
 
 library ieee;
 use ieee.std_logic_1164.all;
