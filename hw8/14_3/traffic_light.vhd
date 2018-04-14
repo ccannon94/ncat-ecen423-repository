@@ -10,14 +10,19 @@ architecture traffic_arch of traffic_light is
     signal current_state, next_state : std_logic_vector(2 downto 0);
 
     begin
+        --Process for state transitions
         process(clk, reset)
         begin
+            --Asynchronous reset
             if(reset = '1') then next_state <= "000";
+            --If rising clock edge, move states
             elsif(clk'event and clk = '1') then
                 case(current_state) is
                     when "000" =>
+                        --If there is a car coming east/west, transition
                         if(carew = '1') then
                             next_state <= "001";
+                        --Otherwise, stay
                         else
                             next_state <= "000";
                         end if;
@@ -35,7 +40,8 @@ architecture traffic_arch of traffic_light is
             end if;
         end process;
         process(current_state)
-	begin
+    begin
+            --Assigns output for each state based on the State Diagram
             case current_state is
                 when "000" =>
                     north_south <= "100";
