@@ -18,10 +18,10 @@ architecture test_6_arch of traffic_light_6_test is
     constant clk_period : time := 10ns;
 
     -- Simulation Outputs
-    signal north_south, east_west : std_logic;
+    signal north_south, east_west : std_logic_vector(2 downto 0);
 
     begin
-        uut : traffic_light port map(clk, reset, carew, north_south, east_west);
+        uut : traffic_light port map(clk, reset, carew, carns, north_south, east_west);
 
         clk_process : process
         begin

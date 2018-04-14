@@ -1,18 +1,18 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity traffic_light is
+entity traffic_light_three is
     port(clk, reset, carew : in std_logic;
     north_south, east_west : out std_logic_vector(2 downto 0));
-end entity traffic_light;
+end entity traffic_light_three;
 
-architecture traffic_arch of traffic_light is
+architecture traffic_arch of traffic_light_three is
     signal current_state, next_state : std_logic_vector(2 downto 0);
 
     begin
         process(clk, reset)
         begin
-            if(reset = "000") then next_state <= "000";
+            if(reset = '1') then next_state <= "000";
             elsif(clk'event and clk = '1') then
                 case(current_state) is
                     when "000" =>
@@ -27,9 +27,9 @@ architecture traffic_arch of traffic_light is
                         next_state <= "011";
                     when "011" =>
                         if(carew = '1') then
-                            next_state <= "100";
-                        else
                             next_state <= "011";
+                        else
+                            next_state <= "100";
                         end if;
                     when "100" =>
                         next_state <= "101";
@@ -39,6 +39,7 @@ architecture traffic_arch of traffic_light is
             end if;
         end process;
         process(current_state)
+	begin
             case current_state is
                 when "000" =>
                     north_south <= "100";
@@ -57,7 +58,7 @@ architecture traffic_arch of traffic_light is
                     east_west <= "010";
                 when others =>
                     north_south <= "001";
-                    east_west <= "001;"
+                    east_west <= "001";
             end case;
         end process;
         current_state <= next_state;

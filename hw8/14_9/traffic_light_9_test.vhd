@@ -7,10 +7,10 @@ end traffic_light_9_test;
 architecture test_9_arch of traffic_light_9_test is
 
     -- Component declaration of Unit Under Test
-    component traffic_light is
+    component traffic_light_three is
         port(clk, reset, carew : in std_logic;
         north_south, east_west : out std_logic_vector(2 downto 0));
-    end component traffic_light;
+    end component traffic_light_three;
 
     -- Simulation Inputs
     signal clk, reset, carew : std_logic;
@@ -18,10 +18,10 @@ architecture test_9_arch of traffic_light_9_test is
     constant clk_period : time := 10ns;
 
     -- Simulation Outputs
-    signal north_south, east_west : std_logic;
+    signal north_south, east_west : std_logic_vector(2 downto 0);
 
     begin
-        uut : traffic_light port map(clk, reset, carew, north_south, east_west);
+        uut : traffic_light_three port map(clk, reset, carew, north_south, east_west);
 
         clk_process : process
         begin

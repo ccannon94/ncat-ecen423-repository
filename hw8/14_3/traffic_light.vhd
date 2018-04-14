@@ -12,7 +12,7 @@ architecture traffic_arch of traffic_light is
     begin
         process(clk, reset)
         begin
-            if(reset = "000") then next_state <= "000";
+            if(reset = '1') then next_state <= "000";
             elsif(clk'event and clk = '1') then
                 case(current_state) is
                     when "000" =>
@@ -35,6 +35,7 @@ architecture traffic_arch of traffic_light is
             end if;
         end process;
         process(current_state)
+	begin
             case current_state is
                 when "000" =>
                     north_south <= "100";
@@ -53,7 +54,7 @@ architecture traffic_arch of traffic_light is
                     east_west <= "010";
                 when others =>
                     north_south <= "001";
-                    east_west <= "001;"
+                    east_west <= "001";
             end case;
         end process;
         current_state <= next_state;
