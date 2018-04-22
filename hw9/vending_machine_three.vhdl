@@ -118,7 +118,7 @@ architecture vending_arch_three of vending_machine_three is
           change <= '0';
         when fortyfive_cents =>
           vend <= "000";
-          change <= '1'';
+          change <= '1';
         when vend_candy =>
           vend <= "100";
           change <= '0';

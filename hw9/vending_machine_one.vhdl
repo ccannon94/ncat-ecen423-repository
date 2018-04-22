@@ -103,7 +103,7 @@ architecture vending_arch_one of vending_machine_one is
           change <= '0';
         when others =>
           vend <= '1';
-          change <= '1'';
+          change <= '1';
       end case;
     end process;
   end architecture vending_arch_one;

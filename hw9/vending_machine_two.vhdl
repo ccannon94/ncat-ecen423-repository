@@ -125,7 +125,7 @@ architecture vending_arch_two of vending_machine_two is
           change <= '0';
         when fortyfive_cents =>
           vend <= '1';
-          change <= '1'';
+          change <= '1';
         when others =>
           vend <= '0';
           change <= '1';

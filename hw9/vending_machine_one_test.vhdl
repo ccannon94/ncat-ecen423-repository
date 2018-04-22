@@ -16,7 +16,7 @@ architecture test_1_arch of vending_machine_one_test is
   signal clk, reset, nickel, dime : std_logic;
 
   --Outputs
-  signal vend, change : out std_logic;
+  signal vend, change : std_logic;
 
   --Constants
   constant clk_period : time := 10ns;
@@ -24,15 +24,15 @@ architecture test_1_arch of vending_machine_one_test is
   begin
     uut : vending_machine_one port map(clk, reset, nickel, dime, vend, change);
 
-    clk_process : clk_process
+    clk_process : process
     begin
       clk <= '0';
       wait for clk_period / 2;
       clk <= '1';
       wait for clk_period / 2;
-    end;
+    end process;
 
-    input_process : clk_process
+    input_process : process
     begin
       wait for 45 ns;
       dime <= '1';
@@ -53,7 +53,7 @@ architecture test_1_arch of vending_machine_one_test is
       dime <= '1';
       wait for 20 ns;
       nickel <= '1';
-      dime = '0';
+      dime <= '0';
       wait for 10 ns;
       nickel <= '0';
       dime <= '1';
