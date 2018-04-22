@@ -48,6 +48,7 @@ architecture test_1_arch of vending_machine_one_test is
       dime <= '0';
       wait for 30 ns;
       nickel <= '1';
+      dime <= '0';
       wait for 10 ns;
       nickel <= '0';
       dime <= '1';
