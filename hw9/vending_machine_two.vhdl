@@ -1,12 +1,12 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 
-entity vending_machine_one is
+entity vending_machine_two is
   port(clk, reset, nickel, dime, quarter : in std_logic;
   vend, change : out std_logic);
-end entity vending_machine_one
+end entity vending_machine_two
 
-architecture vending_arch_one of vending_machine_one is
+architecture vending_arch_two of vending_machine_two is
 
   type state_type is (zero_cents, five_cents, ten_cents, fifteen_cents, twenty_cents, twentyfive_cents, thirty_cents, thirtyfive_cents, forty_cents, fortyfive_cents, fifty_cents, fiftyfive_cents, sixty_cents);
   signal state : state_type;
@@ -131,4 +131,4 @@ architecture vending_arch_one of vending_machine_one is
           change <= '1';
       end case;
     end process;
-  end architecture vending_arch_one;
+  end architecture vending_arch_two;

@@ -1,14 +1,15 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 
-entity vending_machine_one is
-  port(clk, reset, nickel, dime : in std_logic;
-  vend, change : out std_logic);
-end entity vending_machine_one;
+entity vending_machine_three is
+  port(clk, reset, nickel, dime, candy, gum, chips : in std_logic;
+  vend : out std_logic_vector(2 downto 0);
+  change : out std_logic);
+end entity vending_machine_three
 
-architecture vending_arch_one of vending_machine_one is
+architecture vending_arch_three of vending_machine_three is
 
-  type state_type is (zero_cents, five_cents, ten_cents, fifteen_cents, twenty_cents, twentyfive_cents, thirty_cents, thirtyfive_cents, forty_cents, fortyfive_cents);
+  type state_type is (zero_cents, five_cents, ten_cents, fifteen_cents, twenty_cents, twentyfive_cents, thirty_cents, thirtyfive_cents, forty_cents, fortyfive_cents, vend_candy, vend_gum, vend_chips);
   signal state : state_type;
 
   begin
@@ -65,6 +66,20 @@ architecture vending_arch_one of vending_machine_one is
             elsif(dime = '1') then
               state <= fortyfive_cents;
             end if;
+          when forty_cents =>
+            if(candy = '1') then
+              state <= vend_candy;
+            elsif(gum = '1') then
+              state <= vend_gum;
+            elsif(chips = '1') then
+              state <= vend_chips;
+          when fortyfive_cents =>
+            if(candy = '1') then
+              state <= vend_candy;
+            elsif(gum = '1') then
+              state <= vend_gum;
+            elsif(chips = '1') then
+              state <= vend_chips;
           when others =>
             state <= zero_cents;
         end case;
@@ -75,35 +90,44 @@ architecture vending_arch_one of vending_machine_one is
     begin
       case state is
         when zero_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when five_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when ten_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when fifteen_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when twenty_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when twentyfive_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when thirty_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when thirtyfive_cents =>
-          vend <= '0';
+          vend <= "000"
           change <= '0';
         when forty_cents =>
-          vend <= '1';
+          vend <= "000";
+          change <= '0';
+        when fortyfive_cents =>
+          vend <= "000";
+          change <= '1'';
+        when vend_candy =>
+          vend <= "100";
+          change <= '0';
+        when vend_gum =>
+          vend <= "010";
           change <= '0';
         when others =>
-          vend <= '1';
-          change <= '1'';
+          vend <= "001";
+          change <= '0';
       end case;
     end process;
-  end architecture vending_arch_one;
+  end architecture vending_arch_three;
