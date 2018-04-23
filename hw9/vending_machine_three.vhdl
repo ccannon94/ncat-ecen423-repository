@@ -5,7 +5,7 @@ entity vending_machine_three is
   port(clk, reset, nickel, dime, candy, gum, chips : in std_logic;
   vend : out std_logic_vector(2 downto 0);
   change : out std_logic);
-end entity vending_machine_three
+end entity vending_machine_three;
 
 architecture vending_arch_three of vending_machine_three is
 
@@ -73,6 +73,7 @@ architecture vending_arch_three of vending_machine_three is
               state <= vend_gum;
             elsif(chips = '1') then
               state <= vend_chips;
+            end if;
           when fortyfive_cents =>
             if(candy = '1') then
               state <= vend_candy;
@@ -80,6 +81,7 @@ architecture vending_arch_three of vending_machine_three is
               state <= vend_gum;
             elsif(chips = '1') then
               state <= vend_chips;
+            end if;
           when others =>
             state <= zero_cents;
         end case;
@@ -90,28 +92,28 @@ architecture vending_arch_three of vending_machine_three is
     begin
       case state is
         when zero_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when five_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when ten_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when fifteen_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when twenty_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when twentyfive_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when thirty_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when thirtyfive_cents =>
-          vend <= "000"
+          vend <= "000";
           change <= '0';
         when forty_cents =>
           vend <= "000";
